@@ -16,7 +16,21 @@ const computeLives = (baseLives: number, level: number): number => {
 
 function initStageForLevel(level: number): Stage {
   const index = (level - 1) % stages.length;
-  return cloneStage(stages[index]);
+  const cycle = Math.floor((level - 1) / stages.length);
+  const stage = cloneStage(stages[index]);
+  const bonus = stages[index].bonusPieces;
+
+  if (cycle >= 1 && bonus && bonus.length > 0) {
+    const extraCount = Math.min(cycle, bonus.length);
+    const extra = bonus.slice(0, extraCount).map((piece) => ({
+      ...piece,
+      cells: piece.cells.map(([x, y]): [number, number] => [x, y]),
+      head: [piece.head[0], piece.head[1]] as [number, number]
+    }));
+    stage.pieces = [...stage.pieces, ...extra];
+  }
+
+  return stage;
 }
 
 export default function App(): JSX.Element {
@@ -103,6 +117,8 @@ export default function App(): JSX.Element {
         setStatus('deadlock');
         return;
       }
+
+      return;
     }
 
     setFailedPieceId(pieceId);

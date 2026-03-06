@@ -16,6 +16,7 @@ export interface Stage {
   gridHeight: number;
   lives: number;
   pieces: Piece[];
+  bonusPieces?: Piece[];
 }
 
 export type GameStatus = 'playing' | 'cleared' | 'gameover' | 'deadlock';

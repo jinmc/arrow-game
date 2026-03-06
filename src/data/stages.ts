@@ -11,6 +11,9 @@ export const stages: Stage[] = [
       { id: 'a', cells: [[4, 4], [5, 4], [6, 4]], head: [6, 4], direction: 'right' },
       { id: 'b', cells: [[5, 7], [6, 7], [6, 6]], head: [6, 6], direction: 'up' },
       { id: 'c', cells: [[8, 8], [7, 8]], head: [7, 8], direction: 'left' }
+    ],
+    bonusPieces: [
+      { id: 'bonus1', cells: [[2, 2], [3, 2]], head: [2, 2], direction: 'left' }
     ]
   },
   {
@@ -23,6 +26,9 @@ export const stages: Stage[] = [
       { id: 'a', cells: [[4, 6], [5, 6], [5, 5]], head: [5, 5], direction: 'up' },
       { id: 'b', cells: [[5, 4], [6, 4], [7, 4]], head: [7, 4], direction: 'right' },
       { id: 'c', cells: [[8, 7], [7, 7], [7, 8]], head: [7, 8], direction: 'down' }
+    ],
+    bonusPieces: [
+      { id: 'bonus1', cells: [[2, 3], [2, 4]], head: [2, 3], direction: 'up' }
     ]
   },
   {
@@ -34,8 +40,11 @@ export const stages: Stage[] = [
     pieces: [
       { id: 'a', cells: [[5, 5], [6, 5], [7, 5]], head: [7, 5], direction: 'right' },
       { id: 'b', cells: [[8, 5], [8, 6]], head: [8, 6], direction: 'down' },
-      { id: 'c', cells: [[4, 9], [5, 9], [5, 8]], head: [5, 8], direction: 'up' },
-      { id: 'd', cells: [[9, 9], [9, 8], [8, 8]], head: [8, 8], direction: 'left' }
+      { id: 'c', cells: [[5, 9], [6, 9], [6, 8]], head: [6, 8], direction: 'up' },
+      { id: 'd', cells: [[8, 8], [9, 8]], head: [9, 8], direction: 'right' }
+    ],
+    bonusPieces: [
+      { id: 'bonus1', cells: [[2, 3], [2, 4]], head: [2, 3], direction: 'up' }
     ]
   },
   {
@@ -49,6 +58,9 @@ export const stages: Stage[] = [
       { id: 'b', cells: [[9, 8], [9, 7], [9, 6]], head: [9, 6], direction: 'up' },
       { id: 'c', cells: [[4, 4], [4, 5], [5, 5]], head: [5, 5], direction: 'right' },
       { id: 'd', cells: [[6, 9], [5, 9]], head: [5, 9], direction: 'left' }
+    ],
+    bonusPieces: [
+      { id: 'bonus1', cells: [[11, 11], [11, 12]], head: [11, 11], direction: 'up' }
     ]
   },
   {
@@ -62,6 +74,9 @@ export const stages: Stage[] = [
       { id: 'b', cells: [[8, 6], [8, 5], [7, 5]], head: [7, 5], direction: 'up' },
       { id: 'c', cells: [[5, 9], [6, 9], [6, 8]], head: [6, 8], direction: 'up' },
       { id: 'd', cells: [[4, 7], [4, 8]], head: [4, 8], direction: 'down' }
+    ],
+    bonusPieces: [
+      { id: 'bonus1', cells: [[11, 11], [11, 12]], head: [11, 11], direction: 'up' }
     ]
   },
   {
@@ -75,6 +90,9 @@ export const stages: Stage[] = [
       { id: 'b', cells: [[9, 5], [9, 6], [8, 6]], head: [8, 6], direction: 'left' },
       { id: 'c', cells: [[10, 9], [9, 9], [9, 8]], head: [9, 8], direction: 'up' },
       { id: 'd', cells: [[4, 10], [5, 10], [5, 9]], head: [5, 9], direction: 'up' }
+    ],
+    bonusPieces: [
+      { id: 'bonus1', cells: [[2, 12], [2, 13]], head: [2, 12], direction: 'up' }
     ]
   },
   {
@@ -89,6 +107,9 @@ export const stages: Stage[] = [
       { id: 'c', cells: [[5, 10], [6, 10], [6, 9]], head: [6, 9], direction: 'up' },
       { id: 'd', cells: [[10, 7], [10, 8], [9, 8]], head: [9, 8], direction: 'left' },
       { id: 'e', cells: [[4, 5], [4, 6]], head: [4, 5], direction: 'up' }
+    ],
+    bonusPieces: [
+      { id: 'bonus1', cells: [[12, 12], [12, 13]], head: [12, 12], direction: 'up' }
     ]
   },
   {
@@ -103,6 +124,9 @@ export const stages: Stage[] = [
       { id: 'c', cells: [[9, 9], [9, 8], [8, 8]], head: [8, 8], direction: 'left' },
       { id: 'd', cells: [[4, 4], [5, 4], [5, 5]], head: [5, 5], direction: 'down' },
       { id: 'e', cells: [[10, 10], [10, 9]], head: [10, 9], direction: 'up' }
+    ],
+    bonusPieces: [
+      { id: 'bonus1', cells: [[12, 12], [12, 13]], head: [12, 12], direction: 'up' }
     ]
   },
   {
@@ -117,6 +141,9 @@ export const stages: Stage[] = [
       { id: 'c', cells: [[6, 9], [6, 8], [5, 8]], head: [5, 8], direction: 'left' },
       { id: 'd', cells: [[10, 5], [9, 5], [9, 4]], head: [9, 4], direction: 'up' },
       { id: 'e', cells: [[4, 10], [5, 10], [5, 9]], head: [5, 9], direction: 'up' }
+    ],
+    bonusPieces: [
+      { id: 'bonus1', cells: [[12, 12], [12, 13]], head: [12, 12], direction: 'up' }
     ]
   },
   {
@@ -132,6 +159,9 @@ export const stages: Stage[] = [
       { id: 'd', cells: [[7, 9], [8, 9], [8, 8]], head: [8, 8], direction: 'up' },
       { id: 'e', cells: [[4, 4], [4, 5], [5, 5]], head: [5, 5], direction: 'right' },
       { id: 'f', cells: [[10, 10], [9, 10]], head: [9, 10], direction: 'left' }
+    ],
+    bonusPieces: [
+      { id: 'bonus1', cells: [[12, 12], [12, 13]], head: [12, 12], direction: 'up' }
     ]
   }
 ];
