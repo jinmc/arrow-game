@@ -2,17 +2,12 @@ import type { GameStatus } from '../logic/types';
 
 interface ResultModalProps {
   status: GameStatus;
-  isLastStage: boolean;
+  level: number;
   onRetry: () => void;
   onNext: () => void;
 }
 
-export default function ResultModal({
-  status,
-  isLastStage,
-  onRetry,
-  onNext
-}: ResultModalProps): JSX.Element | null {
+export default function ResultModal({ status, level, onRetry, onNext }: ResultModalProps): JSX.Element | null {
   if (status === 'playing') {
     return null;
   }
@@ -22,7 +17,7 @@ export default function ResultModal({
       <div className="modal-backdrop" role="dialog" aria-modal="true" aria-label="Game over">
         <div className="modal-card">
           <h2>Game Over</h2>
-          <p>Your lives reached zero.</p>
+          <p>Your lives reached zero. You reached level {level}.</p>
           <button type="button" className="solid-btn" onClick={onRetry}>
             Retry Stage
           </button>
@@ -31,17 +26,36 @@ export default function ResultModal({
     );
   }
 
+  if (status === 'deadlock') {
+    return (
+      <div className="modal-backdrop" role="dialog" aria-modal="true" aria-label="Puzzle locked">
+        <div className="modal-card">
+          <h2>Puzzle Locked!</h2>
+          <p>No arrows can escape from this position. Restart or skip this stage.</p>
+          <div className="modal-actions">
+            <button type="button" className="ghost-btn" onClick={onRetry}>
+              Restart Stage
+            </button>
+            <button type="button" className="solid-btn" onClick={onNext}>
+              Skip Stage
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="modal-backdrop" role="dialog" aria-modal="true" aria-label="Stage clear">
       <div className="modal-card">
-        <h2>Stage Clear</h2>
-        <p>{isLastStage ? 'You cleared every stage in this MVP set.' : 'Ready for the next puzzle?'}</p>
+        <h2>Stage Clear!</h2>
+        <p>Great job! Advancing to level {level + 1}.</p>
         <div className="modal-actions">
           <button type="button" className="ghost-btn" onClick={onRetry}>
             Retry Stage
           </button>
           <button type="button" className="solid-btn" onClick={onNext}>
-            {isLastStage ? 'Play From Stage 1' : 'Next Stage'}
+            Next Stage
           </button>
         </div>
       </div>

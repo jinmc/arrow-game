@@ -18,7 +18,7 @@ export interface Stage {
   pieces: Piece[];
 }
 
-export type GameStatus = 'playing' | 'cleared' | 'gameover';
+export type GameStatus = 'playing' | 'cleared' | 'gameover' | 'deadlock';
 
 export interface EscapeResult {
   canEscape: boolean;

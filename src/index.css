@@ -26,7 +26,7 @@ body {
 }
 
 .app-shell {
-  width: min(100%, 480px);
+  width: min(100%, 960px);
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(6px);
   border: 1px solid rgba(16, 34, 47, 0.14);
@@ -49,6 +49,12 @@ h1 {
   gap: 8px;
   justify-content: space-between;
   margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.hud-actions {
+  display: flex;
+  gap: 6px;
 }
 
 .hud-item {
