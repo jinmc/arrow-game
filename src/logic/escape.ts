@@ -34,3 +34,9 @@ export const canPieceEscape = (
 
   return { canEscape: true };
 };
+
+export const hasAnyEscapablePiece = (
+  pieces: Piece[],
+  gridWidth: number,
+  gridHeight: number
+): boolean => pieces.some((piece) => canPieceEscape(piece, pieces, gridWidth, gridHeight).canEscape);

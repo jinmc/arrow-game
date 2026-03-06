@@ -3,23 +3,38 @@ import GameBoard from './components/GameBoard';
 import HUD from './components/HUD';
 import ResultModal from './components/ResultModal';
 import { stages } from './data/stages';
-import { canPieceEscape } from './logic/escape';
+import { canPieceEscape, hasAnyEscapablePiece } from './logic/escape';
 import { cloneStage } from './logic/stage';
 import type { GameStatus, Stage } from './logic/types';
 
-function initStage(stageIndex: number): Stage {
-  return cloneStage(stages[stageIndex]);
+const LEVEL_STORAGE_KEY = 'arrow-game-level';
+
+const computeLives = (baseLives: number, level: number): number => {
+  const reduction = Math.floor((level - 1) / stages.length);
+  return Math.max(1, baseLives - reduction);
+};
+
+function initStageForLevel(level: number): Stage {
+  const index = (level - 1) % stages.length;
+  return cloneStage(stages[index]);
 }
 
 export default function App(): JSX.Element {
-  const [stageIndex, setStageIndex] = useState(0);
-  const [stage, setStage] = useState<Stage>(() => initStage(0));
-  const [lives, setLives] = useState(() => stages[0].lives);
+  const [level, setLevel] = useState<number>(() => {
+    const stored = localStorage.getItem(LEVEL_STORAGE_KEY);
+    const parsed = stored ? parseInt(stored, 10) : NaN;
+    return !Number.isNaN(parsed) && parsed >= 1 ? parsed : 1;
+  });
+
+  const stageIndex = useMemo(() => (level - 1) % stages.length, [level]);
+  const [stage, setStage] = useState<Stage>(() => initStageForLevel(level));
+  const [lives, setLives] = useState<number>(() => computeLives(stages[stageIndex].lives, level));
   const [status, setStatus] = useState<GameStatus>('playing');
   const [failedPieceId, setFailedPieceId] = useState<string | null>(null);
 
-  const stageLabel = useMemo(() => `${stage.id} / ${stages.length}`, [stage.id]);
-  const isLastStage = stageIndex === stages.length - 1;
+  useEffect(() => {
+    localStorage.setItem(LEVEL_STORAGE_KEY, level.toString());
+  }, [level]);
 
   useEffect(() => {
     if (!failedPieceId) {
@@ -33,22 +48,33 @@ export default function App(): JSX.Element {
     return () => window.clearTimeout(timeoutId);
   }, [failedPieceId]);
 
-  const loadStage = (nextStageIndex: number): void => {
-    const fresh = initStage(nextStageIndex);
-    setStageIndex(nextStageIndex);
+  const stageLabel = useMemo(() => `${stage.id} / ${stages.length}`, [stage.id]);
+
+  const loadLevel = (nextLevel: number): void => {
+    const fresh = initStageForLevel(nextLevel);
+    const freshLives = computeLives(stages[(nextLevel - 1) % stages.length].lives, nextLevel);
+    setLevel(nextLevel);
     setStage(fresh);
-    setLives(fresh.lives);
+    setLives(freshLives);
     setStatus('playing');
     setFailedPieceId(null);
   };
 
   const handleRestart = (): void => {
-    loadStage(stageIndex);
+    const fresh = initStageForLevel(level);
+    const freshLives = computeLives(stages[stageIndex].lives, level);
+    setStage(fresh);
+    setLives(freshLives);
+    setStatus('playing');
+    setFailedPieceId(null);
   };
 
   const handleNextStage = (): void => {
-    const nextIndex = isLastStage ? 0 : stageIndex + 1;
-    loadStage(nextIndex);
+    loadLevel(level + 1);
+  };
+
+  const handleResetLevel = (): void => {
+    loadLevel(1);
   };
 
   const handlePieceTap = (pieceId: string): void => {
@@ -70,8 +96,13 @@ export default function App(): JSX.Element {
 
       if (remaining.length === 0) {
         setStatus('cleared');
+        return;
       }
-      return;
+
+      if (!hasAnyEscapablePiece(remaining, stage.gridWidth, stage.gridHeight)) {
+        setStatus('deadlock');
+        return;
+      }
     }
 
     setFailedPieceId(pieceId);
@@ -87,8 +118,8 @@ export default function App(): JSX.Element {
 
   return (
     <main className="app-shell">
-      <h1>Arrow Puzzle MVP</h1>
-      <HUD stageLabel={stageLabel} lives={lives} onRestart={handleRestart} />
+      <h1>Arrow Puzzle</h1>
+      <HUD stageLabel={stageLabel} level={level} lives={lives} onRestart={handleRestart} onResetLevel={handleResetLevel} />
       <GameBoard
         width={stage.gridWidth}
         height={stage.gridHeight}
@@ -99,7 +130,7 @@ export default function App(): JSX.Element {
       <p className="help-text">
         Tap a piece to attempt escape. Success depends only on the clear exit line from the head arrow.
       </p>
-      <ResultModal status={status} isLastStage={isLastStage} onRetry={handleRestart} onNext={handleNextStage} />
+      <ResultModal status={status} level={level} onRetry={handleRestart} onNext={handleNextStage} />
     </main>
   );
 }
